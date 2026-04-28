@@ -186,7 +186,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 max-w-xl text-base text-white/72 sm:text-lg leading-relaxed"
+            className="mt-6 max-w-xl text-base text-/70 sm:text-lg leading-relaxed"
           >
             Accept local and global payments with bank-grade security. From M-Pesa to international cards—one integration, complete control.
           </motion.p>

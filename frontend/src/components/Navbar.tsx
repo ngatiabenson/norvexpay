@@ -7,10 +7,10 @@ type NavItem = { label: string; href: string };
 
 const nav: NavItem[] = [
   { label: "Home", href: "/#home" },
-  { label: "Features", href: "/#features" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Docs", href: "/docs" },
-  { label: "Careers", href: "/#careers" },
+  { label: "Demo", href: "/#features" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Developers resources", href: "/docs" },
+  /*{ label: "Careers", href: "/#careers" },*/
   { label: "Contact", href: "/#contact" },
 ];
 

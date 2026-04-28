@@ -11,9 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-dvh bg-[#F9FAFB] text-[#1E293B] antialiased">
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
