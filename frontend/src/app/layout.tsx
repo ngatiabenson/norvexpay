@@ -4,13 +4,13 @@ import { Footer } from "../components/Footer";
 
 export const metadata = {
   title: "Norvex Pay",
-  description: "Norvex Pay merchant portal",
+  description: "Secure payments for growing businesses",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-dvh bg-norvex-50 text-norvex-900 antialiased">
+      <body className="min-h-dvh bg-[#F9FAFB] text-[#1E293B] antialiased">
         <Navbar />
         {children}
         <Footer />
@@ -18,4 +18,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
