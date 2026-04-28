@@ -3,21 +3,22 @@
 import * as React from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
-const particles = Array.from({ length: 24 }, (_, i) => ({
+const particles = Array.from({ length: 30 }, (_, i) => ({
   key: `p-${i}`,
-  top: `${(i * 7 + 5) % 90}%`,
-  left: `${(i * 13 + 3) % 95}%`,
-  size: 2 + ((i * 3) % 5),
+  top: `${(i * 7 + 5) % 92}%`,
+  left: `${(i * 13 + 3) % 96}%`,
+  size: 2 + ((i * 3) % 4),
   delay: (i % 9) * 0.2,
-  duration: 8 + (i % 7) * 1.3,
-  opacity: 0.15 + (i % 5) * 0.07,
+  duration: 9 + (i % 7) * 1.3,
+  opacity: 0.12 + (i % 5) * 0.06,
 }));
 
 const orbitDots = [
-  { r: 52, speed: 18, color: "#00B8D9", size: 9 },
-  { r: 44, speed: 26, color: "#FFAB00", size: 7 },
-  { r: 58, speed: 14, color: "#0052CC", size: 10 },
-  { r: 38, speed: 32, color: "#00B8D9", size: 5 },
+  { r: 50, speed: 20, color: "#00B8D9", size: 9 },
+  { r: 42, speed: 28, color: "#FFAB00", size: 7 },
+  { r: 56, speed: 15, color: "#0066FF", size: 10 },
+  { r: 36, speed: 35, color: "#00B8D9", size: 5 },
+  { r: 62, speed: 12, color: "#FFAB00", size: 6 },
 ];
 
 export function HeroSection() {
@@ -25,12 +26,12 @@ export function HeroSection() {
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 80, damping: 20, mass: 0.5 });
-  const sy = useSpring(my, { stiffness: 80, damping: 20, mass: 0.5 });
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-6, 6]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], [6, -6]);
-  const textShiftX = useTransform(sx, [-0.5, 0.5], [-6, 6]);
-  const textShiftY = useTransform(sy, [-0.5, 0.5], [-4, 4]);
+  const sx = useSpring(mx, { stiffness: 70, damping: 22, mass: 0.5 });
+  const sy = useSpring(my, { stiffness: 70, damping: 22, mass: 0.5 });
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-7, 7]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [7, -7]);
+  const textShiftX = useTransform(sx, [-0.5, 0.5], [-8, 8]);
+  const textShiftY = useTransform(sy, [-0.5, 0.5], [-5, 5]);
 
   const onMove = (e: React.MouseEvent) => {
     const el = ref.current;
@@ -45,50 +46,64 @@ export function HeroSection() {
     <header
       id="home"
       ref={ref}
-      className="relative min-h-[92vh] overflow-hidden flex items-center"
+      className="relative min-h-[94vh] overflow-hidden flex items-center"
+      style={{ background: "#050d1a" }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
-      {/* ── Globe full-bleed background ── */}
+      {/* ── Full-bleed globe background — clips to hero bounds ── */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        {/* Dark gradient overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/90 via-[#0a1628]/70 to-[#0a1628]/30 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/60 via-transparent to-[#0a1628]/20 z-10" />
 
-        {/* Spinning globe */}
+        {/* Radial ambient glow behind globe */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 80% at 72% 50%, rgba(0,82,204,0.18) 0%, rgba(0,184,217,0.10) 40%, transparent 70%)",
+          }}
+        />
+
+        {/* Spinning globe — fills entire hero, clipped by overflow-hidden */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-end pr-0 lg:pr-8"
+          className="absolute inset-0 flex items-center justify-center"
           style={{ rotateX, rotateY }}
         >
+          {/* Globe wrapper: oversized so it bleeds to edges */}
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            className="relative w-[110vmin] max-w-[760px] aspect-square opacity-80"
-            style={{ translateX: "15%" }}
+            transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+            className="absolute"
+            style={{
+              width: "min(130vw, 130vh)",
+              height: "min(130vw, 130vh)",
+              right: "-15%",
+              top: "50%",
+              translateY: "-50%",
+            }}
           >
+            {/* The globe image itself */}
             <img
               src="/globe.png"
               alt="Global payments network"
-              className="absolute inset-0 h-full w-full select-none"
+              className="absolute inset-0 h-full w-full select-none object-cover"
+              style={{ opacity: 0.55 }}
               draggable={false}
             />
 
-            {/* Orbit rings */}
+            {/* Orbit rings + dots */}
             {orbitDots.map((o, i) => (
               <React.Fragment key={i}>
-                {/* Ring */}
                 <div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
                   style={{
                     width: `${o.r * 2}%`,
                     height: `${o.r * 2}%`,
-                    borderColor: `${o.color}30`,
+                    borderColor: `${o.color}28`,
                   }}
                 />
-                {/* Orbiting dot */}
                 <motion.div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                  animate={{ rotate: 360 }}
+                  animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
                   transition={{ duration: o.speed, repeat: Infinity, ease: "linear" }}
                   style={{ width: `${o.r * 2}%`, height: `${o.r * 2}%` }}
                 >
@@ -98,7 +113,7 @@ export function HeroSection() {
                       width: o.size,
                       height: o.size,
                       background: o.color,
-                      boxShadow: `0 0 14px ${o.color}99`,
+                      boxShadow: `0 0 18px ${o.color}cc`,
                       top: 0,
                       left: "50%",
                       transform: "translateX(-50%)",
@@ -110,13 +125,29 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
 
+        {/* Readability gradients — left-heavy so text is always legible */}
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(5,13,26,0.96) 0%, rgba(5,13,26,0.82) 38%, rgba(5,13,26,0.45) 65%, rgba(5,13,26,0.18) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(5,13,26,0.55) 0%, transparent 20%, transparent 75%, rgba(5,13,26,0.7) 100%)",
+          }}
+        />
+
         {/* Drifting particles */}
         {particles.map((p) => (
           <motion.span
             key={p.key}
             className="absolute rounded-full bg-[#00B8D9] z-20"
             style={{ top: p.top, left: p.left, width: p.size, height: p.size, opacity: p.opacity }}
-            animate={{ y: [0, -20, 0], x: [0, 14, 0] }}
+            animate={{ y: [0, -22, 0], x: [0, 16, 0] }}
             transition={{ delay: p.delay, duration: p.duration, repeat: Infinity, ease: "easeInOut" }}
           />
         ))}
@@ -124,10 +155,8 @@ export function HeroSection() {
 
       {/* ── Hero content ── */}
       <div className="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28 w-full">
-        <motion.div
-          style={{ x: textShiftX, y: textShiftY }}
-          className="max-w-2xl"
-        >
+        <motion.div style={{ x: textShiftX, y: textShiftY }} className="max-w-2xl">
+
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -135,49 +164,49 @@ export function HeroSection() {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-white/80 backdrop-blur-sm mb-6"
           >
-            <span className="size-1.5 rounded-full bg-emerald-400" />
-            Trusted by businesses across Africa & beyond
+            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+            Trusted by businesses across Africa &amp; beyond
           </motion.div>
 
           {/* Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.08]"
+            transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.07]"
           >
             Secure Payments for{" "}
-            <span className="bg-gradient-to-r from-[#00B8D9] to-[#FFAB00] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#00B8D9] via-[#0099cc] to-[#FFAB00] bg-clip-text text-transparent">
               Growing Businesses
             </span>
           </motion.h1>
 
           {/* Subtext */}
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 max-w-xl text-base text-white/75 sm:text-lg leading-relaxed"
+            transition={{ duration: 0.65, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 max-w-xl text-base text-white/72 sm:text-lg leading-relaxed"
           >
             Accept local and global payments with bank-grade security. From M-Pesa to international cards—one integration, complete control.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
             className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
           >
             <a
               href="/login"
-              className="rounded-lg bg-[#0052CC] px-7 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-[#0052CC]/30 transition duration-200 hover:scale-[1.05] hover:bg-[#0047B3]"
+              className="rounded-lg bg-gradient-to-r from-[#0052CC] to-[#0066FF] px-7 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-[#0052CC]/35 transition duration-200 hover:scale-[1.05] hover:shadow-[#0052CC]/55"
             >
               Create Account
             </a>
             <a
               href="/#contact"
-              className="rounded-lg border border-white/30 bg-white/10 px-7 py-3.5 text-center text-sm font-bold text-white backdrop-blur-sm transition duration-200 hover:scale-[1.05] hover:bg-white/20"
+              className="rounded-lg border border-white/28 bg-white/10 px-7 py-3.5 text-center text-sm font-bold text-white backdrop-blur-sm transition duration-200 hover:scale-[1.05] hover:bg-white/18"
             >
               Contact Sales
             </a>
@@ -185,9 +214,9 @@ export function HeroSection() {
 
           {/* Trust badges */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
             className="mt-10 grid gap-3 sm:grid-cols-3"
           >
             {[
@@ -197,11 +226,11 @@ export function HeroSection() {
             ].map((row) => (
               <div
                 key={row.k}
-                className="rounded-2xl border border-white/15 bg-white/8 p-4 backdrop-blur-sm transition duration-200 hover:bg-white/12"
-                style={{ background: "rgba(255,255,255,0.07)" }}
+                className="rounded-2xl border border-white/14 p-4 backdrop-blur-sm transition duration-200 hover:border-white/25"
+                style={{ background: "rgba(255,255,255,0.06)" }}
               >
                 <div className="text-sm font-bold text-white">{row.k}</div>
-                <div className="mt-1 text-xs text-white/60">{row.v}</div>
+                <div className="mt-1 text-xs text-white/55">{row.v}</div>
               </div>
             ))}
           </motion.div>
