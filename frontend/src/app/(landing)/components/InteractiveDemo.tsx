@@ -359,6 +359,7 @@ function PayoutSummary() {
 export function InteractiveDemo() {
   return (
     <section
+      id="demo"
       className="py-16 sm:py-20 lg:py-24"
       style={{
         background: "linear-gradient(160deg, #f0f4fa 0%, #e8f0f9 50%, #f5f0e8 100%)",

@@ -1,10 +1,8 @@
 import "./globals.css";
-import { Navbar } from "../components/Navbar";
-import { Footer } from "../components/Footer";
 
 export const metadata = {
-  title: "Norvex Pay",
-  description: "Secure payments for growing businesses",
+  title: "Norvex Pay — Secure Payments for Growing Businesses",
+  description: "Accept local and global payments with bank-grade security. From M-Pesa to international cards—one integration, complete control.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
