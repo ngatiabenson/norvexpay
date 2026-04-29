@@ -114,7 +114,8 @@ export function WhyUs() {
           {pillars.map((p, i) => (
             <motion.div key={p.title}
               variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }} custom={i}
-              className={`group relative rounded-3xl border-white/90  p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl ${p.border}`}>
+              className={`group relative rounded-3xl border bg-white p-6 transition duration-300 hover:-translate-y-1 ${p.border}`}
+              style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.2)" }}>
               {/* Coloured top accent bar */}
               <div className="absolute top-0 left-6 right-6 h-0.5 rounded-b-full opacity-60 transition-opacity duration-300 group-hover:opacity-100"
                 style={{ background: p.accent }} />
