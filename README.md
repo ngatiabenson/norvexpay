@@ -2,7 +2,7 @@
 
 > Secure, reliable payments infrastructure for growing businesses — built for trust, speed, and global reach.
 
-![Norvex Pay](public/globe.png)
+
 
 ---
 
